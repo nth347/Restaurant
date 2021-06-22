@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    tomcatVersion = '8.5.63'
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+    implementation group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+
+    // https://mvnrepository.com/artifact/org.apache.tomcat.embed
+    implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: "${tomcatVersion}"
+    implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: "${tomcatVersion}"
+    implementation group: 'org.apache.tomcat', name: 'tomcat-jasper', version: "${tomcatVersion}"
+    implementation group: 'org.apache.tomcat', name: 'tomcat-jasper-el', version: "${tomcatVersion}"
+    implementation group: 'org.apache.tomcat', name: 'tomcat-jsp-api', version: "${tomcatVersion}"
+
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
+
+    // https://mvnrepository.com/artifact/javax.servlet/jstl
+    implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
+
+    // https://mvnrepository.com/artifact/org.json/json
+    implementation group: 'org.json', name: 'json', version: '20210307'
+
+    // https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-websocket
+    implementation group: 'org.apache.tomcat', name: 'tomcat-websocket', version: "${tomcatVersion}"
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+test {
+    useJUnitPlatform()
+}

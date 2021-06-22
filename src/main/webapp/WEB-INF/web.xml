@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+		 version="2.4">
+	<description>
+		The menu and online ordering system for nth347's Restaurant
+	</description>
+	<display-name>nth347's Restaurant</display-name>
+
+	<!-- Servlet filters, we can define the order of filters -->
+    <filter>
+		<filter-name>MenuSearchLoggingFilter</filter-name>
+		<filter-class>nth347.filters.MenuSearchLoggingFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>MenuSearchCorrectionFilter</filter-name>
+		<filter-class>nth347.filters.MenuSearchCorrectionFilter</filter-class>
+	</filter>
+	<!--Order is important -->
+	<filter-mapping>
+		<filter-name>MenuSearchCorrectionFilter</filter-name>
+		<url-pattern>/MenuSearch.html</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>MenuSearchLoggingFilter</filter-name>
+		<url-pattern>/MenuSearch.html</url-pattern>
+	</filter-mapping>
+
+	<!-- Session expiry date: 120 minutes -->
+	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
+
+	<!-- Authorization -->
+	<security-role>
+		<role-name>user</role-name>
+	</security-role>
+	<security-role>
+		<role-name>admin</role-name>
+	</security-role>
+
+	<!-- Authentication with form-based method -->
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/Login.html</form-login-page>
+			<form-error-page>/LoginFailed.html</form-error-page>
+		</form-login-config>
+	</login-config>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Admin's resources</web-resource-name>
+			<description>Matches all resources within /Admin/ folder</description>
+			<url-pattern>/Admin/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>User's resources</web-resource-name>
+			<description>Matches all resources within /User/ folder</description>
+			<url-pattern>/User/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>user</role-name>
+		</auth-constraint>
+	</security-constraint>
+</web-app>
